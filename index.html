@@ -1,0 +1,37 @@
+<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shop Tayyiba BD | Online Grocery</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7f5;color:#182019}*{box-sizing:border-box}.wrap{max-width:1050px;margin:auto;padding:0 15px}
+header{background:#126b3a;color:#fff;padding:18px}.brand{font-size:24px;font-weight:bold}.sub{font-size:12px}.hero{padding:30px 0;background:#e9f6ed}.hero h1{margin:0 0 8px}.badges{display:flex;gap:8px;flex-wrap:wrap}.badge{background:#fff;padding:8px 12px;border-radius:18px;font-weight:bold}
+.search{margin:18px 0;padding:13px;width:100%;border:1px solid #ccd8cf;border-radius:10px;font-size:16px}.cats{display:flex;gap:8px;overflow:auto;margin-bottom:15px}.cat{border:1px solid #ccd8cf;background:#fff;border-radius:18px;padding:8px 13px}.active{background:#126b3a;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}.card{background:#fff;padding:12px;border:1px solid #e1e7e2;border-radius:14px}.pic{height:100px;background:#edf5ef;border-radius:10px;display:grid;place-items:center;font-size:45px}.name{font-weight:bold;margin-top:9px}.price{color:#126b3a;font-weight:bold;font-size:18px;margin:6px 0}.add,.btn{border:0;border-radius:9px;padding:11px 15px;background:#126b3a;color:#fff;font-weight:bold;cursor:pointer}.add{width:100%;background:#e7f4eb;color:#126b3a}
+.cart{position:fixed;right:15px;bottom:15px;background:#126b3a;color:white;border:0;border-radius:30px;padding:14px 18px;font-weight:bold;z-index:20}.modal{display:none;position:fixed;inset:0;background:#0008;z-index:30;align-items:flex-end}.box{background:white;width:min(650px,100%);margin:auto;border-radius:18px 18px 0 0;padding:20px;max-height:94vh;overflow:auto}.field{width:100%;padding:12px;border:1px solid #ccd8cf;border-radius:9px;margin:5px 0 10px}.pay{border:1px solid #d6dfd8;border-radius:10px;padding:11px;margin:7px 0}.pay input{margin-right:8px}.note{font-size:12px;color:#657169}.total{background:#eff7f1;padding:12px;border-radius:10px;font-weight:bold}
+footer{margin-top:30px;background:#123d28;color:#e4eee7;padding:25px}
+</style></head><body>
+<header><div class="wrap"><div class="brand">🛒 Shop Tayyiba BD</div><div class="sub">বাশারুক, লাউহরফতেহপুর, নবীনগর, ব্রাহ্মণবাড়িয়া • 01344603349</div></div></header>
+<section class="hero"><div class="wrap"><h1>ঘরে বসেই বাজার করুন</h1><p>১,০০০+ পণ্যের অনলাইন মুদি দোকান</p><div class="badges"><span class="badge">🚚 ৳২,০০০-এর নিচে: ৳৩০</span><span class="badge">🎉 ৳২,০০০+: ফ্রি</span><span class="badge">🟣 bKash</span><span class="badge">🟠 Nagad</span><span class="badge">💵 COD</span></div></div></section>
+<main class="wrap"><input id="search" class="search" placeholder="🔎 পণ্য খুঁজুন" oninput="render()"><div id="cats" class="cats"></div><div id="products" class="grid"></div></main>
+<button class="cart" onclick="openCart()">🛒 কার্ট <span id="count">0</span> • ৳<span id="mini">0</span></button>
+<div id="modal" class="modal" onclick="if(event.target===this)closeCart()"><div class="box"><h2>অর্ডার কনফার্ম</h2><div id="items"></div><div class="total">পণ্য: ৳<span id="sub">0</span> | ডেলিভারি: <span id="fee">—</span> | সর্বমোট: ৳<span id="total">0</span></div>
+<input id="customer" class="field" placeholder="নাম"><input id="phone" class="field" placeholder="মোবাইল নম্বর"><textarea id="address" class="field" placeholder="সম্পূর্ণ ঠিকানা"></textarea>
+<h3>পেমেন্ট পদ্ধতি</h3>
+<label class="pay"><input type="radio" name="pay" value="bKash" onchange="paymentChanged()"> 🟣 bKash</label>
+<label class="pay"><input type="radio" name="pay" value="Nagad" onchange="paymentChanged()"> 🟠 Nagad</label>
+<label class="pay"><input type="radio" name="pay" value="Cash on Delivery" checked onchange="paymentChanged()"> 💵 Cash on Delivery</label>
+<div id="txnBox" style="display:none"><input id="txn" class="field" placeholder="bKash/Nagad Transaction ID"><p class="note">লাইভ করার আগে এখানে আপনার bKash/Nagad নম্বর ও নিরাপদ পেমেন্ট ভেরিফিকেশন যুক্ত করতে হবে।</p></div>
+<button class="btn" onclick="placeOrder()">অর্ডার কনফার্ম</button> <button class="btn" style="background:#777" onclick="closeCart()">বন্ধ</button>
+<p class="note">এটি Business V1: অর্ডারটি WhatsApp-এ দোকানে পাঠানো হবে।</p></div></div>
+<footer><div class="wrap"><b>Shop Tayyiba BD</b><br>📍 বাশারুক, লাউহরফতেহপুর, নবীনগর, ব্রাহ্মণবাড়িয়া<br>📞 01344603349<br>পেমেন্ট: bKash • Nagad • Cash on Delivery</div></footer>
+<script>
+const demo=[["চাল","🍚",70,"চাল"],["মসুর ডাল","🫘",120,"ডাল"],["সয়াবিন তেল","🫗",180,"তেল"],["চিনি","🧂",120,"মুদি"],["লবণ","🧂",40,"মুদি"],["আটা","🌾",65,"আটা-ময়দা"],["ময়দা","🌾",70,"আটা-ময়দা"],["ডিম","🥚",12,"ডিম-মুরগি"],["বিস্কুট","🍪",20,"বিস্কুট"],["চা","🍵",120,"চা-কফি"],["সাবান","🧼",45,"ব্যক্তিগত যত্ন"],["শ্যাম্পু","🧴",10,"ব্যক্তিগত যত্ন"]];
+let p=JSON.parse(localStorage.getItem("st_products")||"null")||demo, cart=[], selected="সব";
+function categories(){return["সব",...new Set(p.map(x=>x[3]))]}
+function cats(){document.getElementById("cats").innerHTML=categories().map(c=>`<button class="cat ${c===selected?"active":""}" onclick="selected='${c}';cats();render()">${c}</button>`).join("")}
+function render(){let q=search.value.toLowerCase();products.innerHTML=p.map((x,i)=>[x,i]).filter(([x])=>(selected==="সব"||x[3]===selected)&&x[0].toLowerCase().includes(q)).map(([x,i])=>`<article class="card"><div class="pic">${x[1]}</div><div class="name">${x[0]}</div><small>${x[3]}</small><div class="price">৳${x[2]}</div><button class="add" onclick="cart.push(${i});update();openCart()">কার্টে যোগ করুন</button></article>`).join("")}
+function update(){let s=cart.reduce((a,i)=>a+Number(p[i][2]),0),f=s?(s>=2000?0:30):0,t=s+f;count.textContent=cart.length;mini.textContent=t;sub.textContent=s;fee.textContent=s?(f?"৳30":"ফ্রি"):"—";total.textContent=t}
+function openCart(){modal.style.display="flex";items.innerHTML=cart.length?cart.map((i,n)=>`<div style="padding:8px 0;border-bottom:1px solid #eee">${p[i][1]} ${p[i][0]} — ৳${p[i][2]} <button onclick="cart.splice(${n},1);openCart()">✕</button></div>`).join(""):"<p>কার্ট খালি</p>";update()}
+function closeCart(){modal.style.display="none"}
+function paymentChanged(){txnBox.style.display=document.querySelector('input[name=pay]:checked').value==="Cash on Delivery"?"none":"block"}
+function placeOrder(){if(!cart.length)return alert("কার্টে পণ্য যোগ করুন");let n=customer.value.trim(),ph=phone.value.trim(),ad=address.value.trim(),pay=document.querySelector('input[name=pay]:checked').value,tx=txn.value.trim();if(!n||!ph||!ad)return alert("নাম, মোবাইল ও ঠিকানা দিন");if(pay!=="Cash on Delivery"&&!tx)return alert("Transaction ID দিন");let s=cart.reduce((a,i)=>a+Number(p[i][2]),0),f=s>=2000?0:30,t=s+f,it=cart.map(i=>`• ${p[i][0]} — ৳${p[i][2]}`).join("%0A");let msg=`Shop Tayyiba BD অর্ডার%0Aনাম: ${encodeURIComponent(n)}%0Aমোবাইল: ${encodeURIComponent(ph)}%0Aঠিকানা: ${encodeURIComponent(ad)}%0Aপেমেন্ট: ${encodeURIComponent(pay)}%0A${tx?"Transaction ID: "+encodeURIComponent(tx)+"%0A":""}%0A${it}%0Aপণ্যের মূল্য: ৳${s}%0Aডেলিভারি: ${f?"৳30":"ফ্রি"}%0Aসর্বমোট: ৳${t}`;window.open("https://wa.me/8801344603349?text="+msg,"_blank")}
+cats();render();update();
+</script></body></html>
