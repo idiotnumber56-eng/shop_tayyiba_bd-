@@ -124,6 +124,6 @@ app.delete("/api/admin/products/:id",auth,(req,res)=>{
   db.prepare("UPDATE products SET active=0 WHERE id=?").run(req.params.id);
   res.json({success:true});
 });
-app.use(express.static(path.join(__dirname,"public")));
+app.use(express.static(path.join(__dirname,".")));
 app.get("/admin",(req,res)=>res.sendFile(path.join(__dirname,"public/admin.html")));
 app.listen(PORT,()=>console.log(`Shop Tayyiba BD running on ${PORT}`));
