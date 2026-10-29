@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop Tayyiba - Admin</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f1f7f2;margin:0;padding:16px;color:#203026}
+main{max-width:600px;margin:auto}
+section{background:white;padding:18px;border-radius:12px;margin:14px 0}
+input,button{box-sizing:border-box;width:100%;padding:12px;margin:7px 0;border-radius:8px;font-size:16px}
+input{border:1px solid #ccd9cf}
+button{border:0;background:#126b3a;color:white;font-weight:bold}
+.secondary{background:#555}
+#panel{display:none}
+.msg{white-space:pre-wrap}
+</style>
+</head>
+<body>
+<main>
+<h2>🛒 Shop Tayyiba Admin</h2>
+
+<section id="login">
+<h3>Admin লগইন</h3>
+<input id="username" placeholder="Admin username" autocomplete="username">
+<input id="password" type="password" placeholder="Admin password" autocomplete="current-password">
+<button onclick="login()">লগইন করুন</button>
+<div id="loginMsg" class="msg"></div>
+</section>
+
+<section id="panel">
+<h3>নতুন পণ্য যোগ করুন</h3>
+<input id="name" placeholder="পণ্যের নাম">
+<input id="category" placeholder="ক্যাটাগরি (যেমন: মুদি)">
+<input id="price" type="number" min="0" step="0.01" placeholder="দাম (টাকা)">
+<input id="stock" type="number" min="0" step="1" placeholder="স্টক সংখ্যা">
+<input id="image" type="url" placeholder="ছবির URL (ঐচ্ছিক)">
+<button onclick="addProduct()">পণ্য যোগ করুন</button>
+<div id="productMsg" class="msg"></div>
+<button class="secondary" onclick="loadProducts()">পণ্যের তালিকা দেখুন</button>
+<div id="products"></div>
+<button class="secondary" onclick="logout()">লগআউট</button>
+</section>
+</main>
+
+<script>
+let token = "";
+
+async function login(){
+ const msg=document.getElementById("loginMsg");
+ msg.textContent="লগইন হচ্ছে...";
+ try{
+  const r=await fetch("/api/login",{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({
+    username:document.getElementById("username").value.trim(),
+    password:document.getElementById("password").value
+   })
+  });
+  const data=await r.json();
+  if(!r.ok) throw new Error(data.error||"লগইন হয়নি");
+  token=data.token;
+  document.getElementById("login").style.display="none";
+  document.getElementById("panel").style.display="block";
+  msg.textContent="";
+  loadProducts();
+ }catch(e){msg.textContent=e.message}
+}
+
+async function addProduct(){
+ const msg=document.getElementById("productMsg");
+ const name=document.getElementById("name").value.trim();
+ const price=document.getElementById("price").value;
+ const stock=document.getElementById("stock").value;
+ if(!name||price===""||Number(price)<0||stock===""||Number(stock)<0){
+  msg.textContent="পণ্যের নাম, সঠিক দাম ও স্টক দিন।";
+  return;
+ }
+ msg.textContent="পণ্য যোগ হচ্ছে...";
+ try{
+  const r=await fetch("/api/admin/products",{
+   method:"POST",
+   headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},
+   body:JSON.stringify({
+    name,
+    category:document.getElementById("category").value.trim(),
+    price:Number(price),
+    stock:Number(stock),
+    image_url:document.getElementById("image").value.trim()
+   })
+  });
+  const data=await r.json();
+  if(!r.ok) throw new Error(data.error||"পণ্য যোগ হয়নি");
+  msg.textContent="পণ্য যোগ হয়েছে! ID: "+data.id;
+  ["name","category","price","stock","image"].forEach(id=>document.getElementById(id).value="");
+  loadProducts();
+ }catch(e){msg.textContent=e.message}
+}
+
+async function loadProducts(){
+ const box=document.getElementById("products");
+ box.textContent="তালিকা লোড হচ্ছে...";
+ try{
+  const r=await fetch("/api/products");
+  const data=await r.json();
+  box.innerHTML="<h3>বর্তমান পণ্য ("+data.length+")</h3>";
+  if(!data.length){box.innerHTML+="<p>এখনো কোনো পণ্য নেই।</p>";return}
+  data.forEach(p=>{
+   const item=document.createElement("section");
+   item.style.border="1px solid #ddd";
+   const title=document.createElement("strong");
+   title.textContent=p.name;
+   const detail=document.createElement("p");
+   detail.textContent="দাম: ৳"+p.price+" | স্টক: "+p.stock+" | ID: "+p.id;
+   item.append(title,detail);
+   box.appendChild(item);
+  });
+ }catch(e){box.textContent="পণ্য লোড করা যায়নি: "+e.message}
+}
+
+function logout(){
+ token="";
+ document.getElementById("panel").style.display="none";
+ document.getElementById("login").style.display="block";
+ document.getElementById("password").value="";
+ document.getElementById("loginMsg").textContent="লগআউট হয়েছে।";
+}
+</script>
+</body>
+</html>
