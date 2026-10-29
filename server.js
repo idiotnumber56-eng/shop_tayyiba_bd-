@@ -120,10 +120,10 @@ app.patch("/api/admin/products/:id",auth,(req,res)=>{
     .run(name,category||"",Number(price),Math.max(0,Number(stock)||0),image_url||"",active?1:0,req.params.id);
   res.json({success:true});
 });
-app.delete("/api/admin/products/:id",auth,(req,res)=>{
+app.delete("/api/admin/products/:index",auth,(req,res)=>{
   db.prepare("UPDATE products SET active=0 WHERE id=?").run(req.params.id);
   res.json({success:true});
 });
 app.use(express.static(path.join(__dirname,".")));
-app.get("/admin",(req,res)=>res.sendFile(path.join(__dirname,"admin.html")));
+app.get("/admin",(req,res)=>res.sendFile(path.join(__dirname,in.html")));
 app.listen(PORT,()=>console.log(`Shop Tayyiba BD running on ${PORT}`));
