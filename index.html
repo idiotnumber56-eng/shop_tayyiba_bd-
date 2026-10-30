@@ -1,129 +1,249 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#126b3a">
-<title>Shop Tayyiba BD | অনলাইন বাজার</title>
+<title>Shop Tayyiba BD</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f8f4;color:#203026}
-header{background:#126b3a;color:white;padding:20px 15px}
-.wrap{max-width:1000px;margin:auto;padding:0 15px}
-.brand{font-size:25px;font-weight:bold}
-.sub{font-size:13px;line-height:1.8;margin-top:8px}
-.hero{padding:25px 0;background:#e4f5e8}
-.hero h1{margin:0 0 10px;font-size:27px}
-.badges{display:flex;flex-wrap:wrap;gap:8px}
-.badge{background:white;border-radius:20px;padding:9px;font-size:13px}
-main{padding-top:20px;padding-bottom:90px}
-.search{width:100%;padding:14px;border:1px solid #ccd9cf;border-radius:10px;font-size:16px}
-.cats{display:flex;gap:8px;overflow:auto;padding:15px 0}
-.cat{white-space:nowrap;padding:9px 13px;border:1px solid #ccd9cf;border-radius:20px;background:white}
-.cat.active{background:#126b3a;color:white}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{background:white;padding:11px;border:1px solid #e0e9e1;border-radius:13px}
-.pic{height:100px;background:#edf6ef;display:grid;place-items:center;border-radius:10px;font-size:43px}
-.name{font-weight:bold;margin-top:10px}
-.price{color:#126b3a;font-size:19px;font-weight:bold;margin:8px 0}
-.add,.btn{border:0;border-radius:9px;padding:11px;background:#126b3a;color:white;font-weight:bold}
-.add{width:100%;background:#e3f3e7;color:#126b3a}
-.cart{position:fixed;right:15px;bottom:15px;background:#126b3a;color:white;border:0;border-radius:30px;padding:15px;z-index:5}
-.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;align-items:flex-end;justify-content:center}
-.box{background:white;width:min(650px,100%);padding:20px;border-radius:18px 18px 0 0;max-height:90vh;overflow:auto}
-.field{width:100%;padding:12px;border:1px solid #ccd9cf;border-radius:9px;margin:7px 0 12px}
-.total{background:#edf7ef;padding:12px;border-radius:10px;line-height:2;margin:12px 0}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #eee}
-footer{background:#123d28;color:white;padding:25px 15px;line-height:1.8}
-@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f8f5;color:#203126}
+header{background:#146b3a;color:white;padding:18px 12px;text-align:center}
+header h1{margin:0}
+header p{margin:7px 0 0;font-size:14px}
+nav{background:white;padding:12px;text-align:center}
+nav a{color:#146b3a;text-decoration:none;font-weight:bold;margin:0 12px}
+main{max-width:1100px;margin:auto;padding:15px}
+.banner{background:#e2f4e8;padding:17px;border-radius:12px;margin-bottom:18px;line-height:1.6}
+.search{display:flex;gap:8px;margin:15px 0}
+input,select{padding:12px;border:1px solid #ccc;border-radius:8px;font-size:15px}
+input{flex:1;min-width:0}
+select{max-width:45%}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
+.product{background:white;padding:10px;border-radius:12px;box-shadow:0 2px 8px #0001}
+.product img{width:100%;height:120px;object-fit:cover;border-radius:8px}
+.product h3{font-size:16px;margin:8px 0}
+.price{font-weight:bold;color:#146b3a;font-size:17px}
+.stock{font-size:12px;color:#666;margin:7px 0}
+button{background:#168344;color:white;border:0;border-radius:8px;padding:10px;font-weight:bold;cursor:pointer}
+button:disabled{background:#aaa}
+.add{width:100%}
+.cart{background:white;padding:15px;border-radius:12px;margin-top:25px}
+.cartitem{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #eee}
+.qty button{padding:5px 9px}
+.total{display:flex;justify-content:space-between;margin:10px 0}
+.grand{font-size:19px;font-weight:bold;color:#146b3a;border-top:1px solid #ddd;padding-top:12px}
+.order{width:100%;padding:14px;margin-top:12px;font-size:16px}
+.empty{background:white;padding:20px;text-align:center;border-radius:10px;color:#777}
+footer{background:#173e29;color:white;text-align:center;padding:20px;margin-top:30px;line-height:1.8}
+footer a{color:white}
+@media(max-width:420px){
+.search{flex-direction:column}
+select{max-width:100%;width:100%}
+.products{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style>
 </head>
 <body>
-<header><div class="wrap">
-<div class="brand">🛒 Shop Tayyiba BD</div>
-<div class="sub">📍 বাশারুক, লাউহরফতেহপুর, নবীনগর, ব্রাহ্মণবাড়িয়া<br>📞 01344603349</div>
-</div></header>
-<section class="hero"><div class="wrap">
-<h1>ঘরে বসেই বাজার করুন 🛍️</h1>
-<p>আপনার নিত্যপ্রয়োজনীয় বাজার এখন এক জায়গায়!</p>
-<div class="badges">
-<span class="badge">🚚 ২০০০ টাকার নিচে ডেলিভারি ৳৩০</span>
-<span class="badge">🎉 ২০০০+ টাকায় ফ্রি ডেলিভারি</span>
-<span class="badge">🟣 bKash</span>
-<span class="badge">🟠 Nagad</span>
-<span class="badge">💵 ক্যাশ অন ডেলিভারি</span>
+
+<header>
+<h1>🛒 Shop Tayyiba BD</h1>
+<p>আপনার বিশ্বস্ত অনলাইন মুদি দোকান</p>
+<p>বাশারুক, লাউহরফতেহপুর, নবীনগর, ব্রাহ্মণবাড়িয়া</p>
+</header>
+
+<nav>
+<a href="#products">পণ্যসমূহ</a>
+<a href="#cart">আমার কার্ট</a>
+</nav>
+
+<main>
+<div class="banner">
+<h2>ঘরে বসেই বাজার করুন!</h2>
+<p>পছন্দের পণ্য কার্টে যোগ করে WhatsApp-এ অর্ডার পাঠান।</p>
+<p><b>ডেলিভারি চার্জ:</b> ৳২০০০-এর কম অর্ডারে ৳৩০, ৳২০০০ বা তার বেশি অর্ডারে ফ্রি।</p>
 </div>
-</div></section>
-<main class="wrap">
-<input id="search" class="search" placeholder="🔎 পণ্যের নাম লিখুন">
-<div id="cats" class="cats"></div>
-<div id="products" class="grid"></div>
+
+<h2 id="products">আমাদের পণ্যসমূহ</h2>
+<div class="search">
+<input id="search" placeholder="পণ্যের নাম খুঁজুন..." oninput="renderProducts()">
+<select id="category" onchange="renderProducts()">
+<option value="সব">সব ক্যাটাগরি</option>
+</select>
+</div>
+
+<div id="loading" class="empty">পণ্য লোড হচ্ছে...</div>
+<div id="productsList" class="products"></div>
+
+<section class="cart" id="cart">
+<h2>🛒 আপনার বাজারের তালিকা</h2>
+<div id="cartItems">এখনো কোনো পণ্য যোগ করেননি।</div>
+<div class="total"><span>পণ্যের মোট দাম</span><b id="subtotal">৳০</b></div>
+<div class="total"><span>ডেলিভারি চার্জ</span><b id="delivery">৳০</b></div>
+<div class="total grand"><span>সর্বমোট</span><b id="grandTotal">৳০</b></div>
+<button class="order" onclick="placeOrder()">WhatsApp-এ অর্ডার করুন</button>
+</section>
 </main>
-<button class="cart" onclick="openCart()">🛒 কার্ট <span id="count">0</span> · ৳<span id="mini">0</span></button>
-<div id="modal" class="modal">
-<div class="box">
-<h2>অর্ডার করুন</h2>
-<div id="items"></div>
-<div class="total">
-পণ্যের মূল্য: ৳<span id="subtotal">0</span><br>
-ডেলিভারি: <span id="delivery">—</span><br>
-<strong>সর্বমোট: ৳<span id="total">0</span></strong>
-</div>
-<form id="orderForm">
-<label>আপনার নাম</label>
-<input id="customer" class="field" required placeholder="সম্পূর্ণ নাম">
-<label>মোবাইল নম্বর</label>
-<input id="phone" class="field" type="tel" required placeholder="01XXXXXXXXX">
-<label>সম্পূর্ণ ঠিকানা</label>
-<textarea id="address" class="field" required placeholder="গ্রাম, উপজেলা ও জেলা"></textarea>
-<p>পেমেন্ট পদ্ধতি:</p>
-<label><input type="radio" name="pay" value="bKash"> bKash</label><br>
-<label><input type="radio" name="pay" value="Nagad"> Nagad</label><br>
-<label><input type="radio" name="pay" value="Cash on Delivery" checked> Cash on Delivery</label>
-<p style="font-size:12px;color:#667269">bKash/Nagad-এর স্বয়ংক্রিয় পেমেন্ট যাচাই এখনো যুক্ত নেই।</p>
-<button class="btn" type="submit">WhatsApp-এ অর্ডার পাঠান</button>
-<button class="btn" type="button" style="background:#777" onclick="closeCart()">বন্ধ</button>
-</form>
-</div></div>
-<footer><div class="wrap">
-<strong>Shop Tayyiba BD</strong><br>
+
+<footer>
+<b>Shop Tayyiba BD</b><br>
 বাশারুক, লাউহরফতেহপুর, নবীনগর, ব্রাহ্মণবাড়িয়া<br>
-ফোন: 01344603349
-</div></footer>
+যোগাযোগ: 01344603349<br>
+<a href="https://wa.me/8801344603349">WhatsApp-এ যোগাযোগ করুন</a>
+<p>© Shop Tayyiba BD</p>
+</footer>
+
 <script>
-const demo=[
- ["চাল","🍚",70,"চাল"],["মসুর ডাল","🫘",120,"ডাল"],
- ["সয়াবিন তেল","🫗",180,"তেল"],["চিনি","🧂",120,"মুদি"],
- ["লবণ","🧂",40,"মুদি"],["আটা","🌾",65,"আটা-ময়দা"],
- ["ময়দা","🌾",70,"আটা-ময়দা"],["ডিম","🥚",12,"ডিম-মুরগি"],
- ["বিস্কুট","🍪",20,"বিস্কুট"],["চা","🍵",120,"চা-কফি"],
- ["সাবান","🧼",45,"ব্যক্তিগত যত্ন"],["শ্যাম্পু","🧴",10,"ব্যক্তিগত যত্ন"]
-];
-const $=id=>document.getElementById(id);
-let cart={},selected="সব";
-function categories(){return ["সব",...new Set(demo.map(p=>p[3]))]}
-function cats(){
- $("cats").innerHTML=categories().map(c=>
- `<button class="cat ${selected===c?"active":""}" onclick="selected=${JSON.stringify(c)};cats();render()">${c}</button>`
- ).join("");
+const WHATSAPP_NUMBER="8801344603349";
+let products=[];
+let cart={};
+
+function money(n){
+return "৳"+Number(n||0).toLocaleString("bn-BD");
 }
-function render(){
- const q=$("search").value.trim().toLowerCase();
- const list=demo.map((p,i)=>({p,i})).filter(({p})=>
- (selected==="সব"||p[3]===selected)&&p[0].toLowerCase().includes(q)
- );
- $("products").innerHTML=list.map(({p,i})=>
- `<article class="card">
- <div class="pic">${p[1]}</div><div class="name">${p[0]}</div>
- <small>${p[3]}</small><div class="price">৳${p[2]}</div>
- <button class="add" onclick="addItem(${i})">কার্টে যোগ করুন</button>
- </article>`
- ).join("")||'<div class="empty">কোনো পণ্য পাওয়া যায়নি</div>';
+
+function safe(s){
+return String(s??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+}[c]));
 }
-function addItem(i){cart[i]=(cart[i]||0)+1;update()}
-function update(){
- let subtotal=Object.keys(cart).reduce((s,i)=>s+demo[i][2]*cart[i],0);
- let count=Object.values(cart).reduce((s,n)=>s+n,0);
+
+async function loadProducts(){
+const loading=document.getElementById("loading");
+try{
+const response=await fetch("/api/products",{cache:"no-store"});
+if(!response.ok) throw new Error("লোড ব্যর্থ");
+const data=await response.json();
+if(!Array.isArray(data)) throw new Error("তালিকা পাওয়া যায়নি");
+products=data;
+loading.style.display="none";
+updateCategories();
+renderProducts();
+updateCart();
+}catch(e){
+loading.textContent="পণ্য লোড করা যাচ্ছে না। পরে আবার চেষ্টা করুন।";
+document.getElementById("productsList").innerHTML="";
+console.error(e);
+}
+}
+
+function updateCategories(){
+const select=document.getElementById("category");
+const old=select.value;
+const cats=[...new Set(products.map(p=>p.category).filter(Boolean))];
+select.innerHTML='<option value="সব">সব ক্যাটাগরি</option>';
+cats.forEach(c=>{
+const option=document.createElement("option");
+option.value=c;
+option.textContent=c;
+select.appendChild(option);
+});
+if(cats.includes(old))select.value=old;
+}
+
+function renderProducts(){
+const search=document.getElementById("search").value.toLowerCase().trim();
+const category=document.getElementById("category").value;
+const list=products.filter(p=>
+String(p.name||"").toLowerCase().includes(search)&&
+(category==="সব"||p.category===category)
+);
+const area=document.getElementById("productsList");
+if(!list.length){
+area.innerHTML='<div class="empty">কোনো পণ্য পাওয়া যায়নি।</div>';
+return;
+}
+area.innerHTML=list.map(p=>{
+const id=String(p.id);
+const stock=Number(p.stock||0);
+return `<article class="product">
+${p.image_url
+?`<img src="${safe(p.image_url)}" alt="${safe(p.name)}" onerror="this.style.display='none'">`
+:'<div style="height:120px;background:#eef3ee;display:grid;place-items:center">🛍️</div>'}
+<div style="font-size:12px;color:#777">${safe(p.category||"অন্যান্য")}</div>
+<h3>${safe(p.name)}</h3>
+<div class="price">${money(p.price)}</div>
+<div class="stock">${stock>0?"স্টকে আছে: "+stock:"স্টক শেষ"}</div>
+<button class="add" onclick="addToCart('${id}')" ${stock<=0?"disabled":""}>
+${stock>0?"কার্টে যোগ করুন":"স্টক শেষ"}
+</button>
+</article>`;
+}).join("");
+}
+
+function addToCart(id){
+const p=products.find(x=>String(x.id)===id);
+if(!p)return;
+if((cart[id]||0)>=Number(p.stock||0)){
+alert("এই পরিমাণ পণ্য স্টকে নেই।");
+return;
+}
+cart[id]=(cart[id]||0)+1;
+updateCart();
+}
+
+function changeQty(id,n){
+const p=products.find(x=>String(x.id)===id);
+if(!p)return;
+const next=(cart[id]||0)+n;
+if(next<=0)delete cart[id];
+else if(next<=Number(p.stock||0))cart[id]=next;
+else alert("স্টকে এর বেশি পণ্য নেই।");
+updateCart();
+}
+
+function updateCart(){
+let subtotal=0;
+const ids=Object.keys(cart);
+const area=document.getElementById("cartItems");
+if(!ids.length){
+area.textContent="এখনো কোনো পণ্য যোগ করেননি।";
+}else{
+area.innerHTML=ids.map(id=>{
+const p=products.find(x=>String(x.id)===id);
+if(!p)return "";
+const qty=cart[id];
+const total=Number(p.price||0)*qty;
+subtotal+=total;
+return `<div class="cartitem">
+<div><b>${safe(p.name)}</b><br><small>${money(p.price)} × ${qty} = ${money(total)}</small></div>
+<div class="qty">
+<button onclick="changeQty('${id}',-1)">−</button>
+${qty}
+<button onclick="changeQty('${id}',1)">+</button>
+</div></div>`;
+}).join("");
+}
+const delivery=subtotal===0?0:(subtotal>=2000?0:30);
+document.getElementById("subtotal").textContent=money(subtotal);
+document.getElementById("delivery").textContent=money(delivery);
+document.getElementById("grandTotal").textContent=money(subtotal+delivery);
+}
+
+function placeOrder(){
+const ids=Object.keys(cart);
+if(!ids.length){
+alert("প্রথমে কার্টে পণ্য যোগ করুন।");
+return;
+}
+let subtotal=0;
+let message="Shop Tayyiba BD - নতুন অর্ডার\n\n";
+ids.forEach(id=>{
+const p=products.find(x=>String(x.id)===id);
+if(!p)return;
+const qty=cart[id];
+const total=Number(p.price||0)*qty;
+subtotal+=total;
+message+="পণ্য: "+p.name+"\nপরিমাণ: "+qty+"\nদাম: "+money(total)+"\n\n";
+});
+const delivery=subtotal>=2000?0:30;
+message+="পণ্যের মোট: "+money(subtotal)+"\n";
+message+="ডেলিভারি: "+money(delivery)+"\n";
+message+="সর্বমোট: "+money(subtotal+delivery)+"\n\n";
+message+="আমার নাম ও ঠিকানা:\nমোবাইল নম্বর:\nপেমেন্ট: ক্যাশ অন ডেলিভারি";
+window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message),"_blank");
+}
+
+loadProducts();
 </script>
+</body>
+</html>
