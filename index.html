@@ -126,38 +126,5 @@ function addItem(i){cart[i]=(cart[i]||0)+1;update()}
 function update(){
  let subtotal=Object.keys(cart).reduce((s,i)=>s+demo[i][2]*cart[i],0);
  let count=Object.values(cart).reduce((s,n)=>s+n,0);
- let fee=subtotal===0?0:subtotal>=2000?0:30;
- $("count").textContent=count;
- $("mini").textContent=subtotal+fee;
- $("subtotal").textContent=subtotal;
- $("delivery").textContent=subtotal===0?"—":fee===0?"ফ্রি":"৳"+fee;
- $("total").textContent=subtotal+fee;
-}
-function openCart(){
- $("items").innerHTML=Object.keys(cart).filter(i=>cart[i]>0).map(i=>
- `<div class="row"><span>${demo[i][1]} ${demo[i][0]}<br>৳${demo[i][2]} × ${cart[i]}</span>
- <span><button type="button" onclick="changeQty(${i},-1)">−</button>
- ${cart[i]} <button type="button" onclick="changeQty(${i},1)">+</button>
- <button type="button" onclick="removeItem(${i})">✕</button></span></div>`
- ).join("")||"<p>আপনার কার্ট খালি।</p>";
- update();$("modal").style.display="flex";
-}
-function changeQty(i,n){cart[i]=(cart[i]||0)+n;if(cart[i]<=0)delete cart[i];openCart()}
-function removeItem(i){delete cart[i];openCart()}
-function closeCart(){$("modal").style.display="none"}
-$("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeCart()});
-$("search").addEventListener("input",render);
-$("orderForm").addEventListener("submit",e=>{
- e.preventDefault();
- if(!Object.keys(cart).length)return alert("আগে কার্টে পণ্য যোগ করুন।");
- const name=$("customer").value.trim(),phone=$("phone").value.trim(),address=$("address").value.trim();
- const pay=document.querySelector('input[name="pay"]:checked').value;
- const subtotal=Object.keys(cart).reduce((s,i)=>s+demo[i][2]*cart[i],0);
- const fee=subtotal>=2000?0:30;
- const lines=Object.keys(cart).map(i=>`${demo[i][0]} × ${cart[i]} = ৳${demo[i][2]*cart[i]}`).join("\n");
- const msg=`Shop Tayyiba BD অর্ডার\nনাম: ${name}\nমোবাইল: ${phone}\nঠিকানা: ${address}\nপেমেন্ট: ${pay}\n\n${lines}\nপণ্যের মূল্য: ৳${subtotal}\nডেলিভারি: ${fee===0?"ফ্রি":"৳"+fee}\nসর্বমোট: ৳${subtotal+fee}`;
- location.href="https://wa.me/8801344603349?text="+encodeURIComponent(msg);
-});
-cats();render();update();
 </script>
 
