@@ -425,4 +425,89 @@ app.patch(
            price=?,
            stock=?,
            image_url=?,
-           active
+           active           =?
+       WHERE id=?`
+    ).run(
+      name,
+      category || "",
+      Number(price),
+      Math.max(0, Math.floor(Number(stock) || 0)),
+      image_url || "",
+      active === false || Number(active) === 0 ? 0 : 1,
+      req.params.id
+    );
+
+    res.json({
+      success: true
+    });
+  }
+);
+
+app.delete("/api/admin/products/:id", auth, (req, res) => {
+  db.prepare(
+    "UPDATE products SET active=0 WHERE id=?"
+  ).run(req.params.id);
+
+  res.json({
+    success: true
+  });
+});
+
+app.get("/api/admin/orders", auth, (req, res) => {
+  const orders = db.prepare(
+    "SELECT * FROM orders ORDER BY id DESC"
+  ).all();
+
+  for (const order of orders) {
+    order.items = db.prepare(
+      `SELECT product_name,price,quantity
+       FROM order_items
+       WHERE order_id=?`
+    ).all(order.id);
+  }
+
+  res.json(orders);
+});
+
+app.patch("/api/admin/orders/:id", auth, (req, res) => {
+  const allowed = [
+    "new",
+    "confirmed",
+    "processing",
+    "delivered",
+    "cancelled"
+  ];
+
+  if (!allowed.includes(req.body.status)) {
+    return res.status(400).json({
+      error: "Invalid status"
+    });
+  }
+
+  db.prepare(
+    "UPDATE orders SET status=? WHERE id=?"
+  ).run(
+    req.body.status,
+    req.params.id
+  );
+
+  res.json({
+    success: true
+  });
+});
+
+app.use(express.static(__dirname));
+
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "Admin.html"));
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(
+    "Shop Tayyiba BD running on port " + PORT
+  );
+});
