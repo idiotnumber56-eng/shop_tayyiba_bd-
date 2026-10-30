@@ -122,7 +122,7 @@ function render(){
  </article>`
  ).join("")||'<div class="empty">কোনো পণ্য পাওয়া যায়নি</div>';
 }
-function addItem(i){cart[i]=(cart[i]||0)+1;update();openCart()}
+function addItem(i){cart[i]=(cart[i]||0)+1;update()}
 function update(){
  let subtotal=Object.keys(cart).reduce((s,i)=>s+demo[i][2]*cart[i],0);
  let count=Object.values(cart).reduce((s,n)=>s+n,0);
