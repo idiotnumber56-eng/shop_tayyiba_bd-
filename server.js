@@ -42,9 +42,7 @@ CREATE TABLE IF NOT EXISTS order_items(
 
 const existing = db.prepare("SELECT id FROM admins WHERE username=?").get(ADMIN_USER);
 
-if (!existing) {
-  const hash = bcrypt.hashSync(ADMIN_PASSWORD, 12);
-  db.prepare("INSERT INTO admins(username,password_hash) VALUES(?,?)").run(ADMIN_USER, hash);
+if (!existing)
 } else if (process.env.ADMIN_PASSWORD) {
   const hash = bcrypt.hashSync(ADMIN_PASSWORD, 12);
   db.prepare("UPDATE admins SET password_hash=? WHERE username=?").run(hash, ADMIN_USER);
