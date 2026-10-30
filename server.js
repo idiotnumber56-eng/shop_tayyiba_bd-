@@ -47,12 +47,13 @@ if (!existing)
   const hash = bcrypt.hashSync(ADMIN_PASSWORD, 12);
   db.prepare("UPDATE admins SET password_hash=? WHERE username=?").run(hash, ADMIN_USER);
 }
-
 if (!existing) {
   const hash = bcrypt.hashSync(ADMIN_PASSWORD, 12);
   db.prepare("INSERT INTO admins(username,password_hash) VALUES(?,?)").run(ADMIN_USER, hash);
+} else if (process.env.ADMIN_PASSWORD) {
+  const hash = bcrypt.hashSync(ADMIN_PASSWORD, 12);
+  db.prepare("UPDATE admins SET password_hash=? WHERE username=?").run(hash, ADMIN_USER);
 }
-
 function auth(req,res,next){
   const h=req.headers.authorization||"";
   if(!h.startsWith("Bearer ")) return res.status(401).json({error:"Unauthorized"});
